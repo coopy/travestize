@@ -1,0 +1,24 @@
+{
+  "name": "fragments",
+  "version": "0.0.1",
+  "description": "Dreamify your language",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Per Nilsson <per@sproutlab.com>",
+  "license": "MIT",
+  "dependencies": {
+    "assert": "^1.3.0",
+    "body-parser": "^1.13.1",
+    "express": "^4.13.0",
+    "lodash": "^3.10.0"
+  },
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "mocha": "^2.2.5",
+    "nock": "^2.6.0",
+    "nodemon": "^1.3.7"
+  }
+}
