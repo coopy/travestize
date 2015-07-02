@@ -94,7 +94,7 @@ function handlePostFrag (req, res, next) {
 
 module.exports = {
   register: function register(app) {
-    app.post('/frag', handlePostFrag);
+    app.post('/fragmentize', handlePostFrag);
   },
   fragmentize: fragmentize
 };
