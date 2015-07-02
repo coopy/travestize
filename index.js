@@ -1,5 +1,6 @@
 var bodyParser = require('body-parser')
 var express = require('express');
+var path = require('path');
 
 var app = express();
 var api = require('./api/fragments');
@@ -9,18 +10,23 @@ var config = {
 };
 
 app.use(bodyParser.json());
+api.register(app);
+app.use('/js', express.static('build'));
+app.use('/css', express.static('build'));
 
 app.get('/', function (req, res) {
-  res.send('Hello World!');
+  res.redirect('/travestize');
 });
 
-api.register(app);
+app.get('/travestize', function (req, res) {
+  res.sendFile(path.resolve(__dirname, 'index.html'));
+});
 
 var server = app.listen(config.port, function () {
 
   var host = server.address().address;
   var port = server.address().port;
 
-  console.log('fragments server listening at http://%s:%s', host, port);
+  console.log('Travestize server listening at http://%s:%s', host, port);
 
 });

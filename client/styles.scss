@@ -1,0 +1,29 @@
+body {
+  font: 18px sans-serif;
+}
+
+.container {
+  position: relative;
+
+  .wrapper {
+    width: 640px;
+
+    margin: 0px auto;
+  }
+}
+
+textarea {
+  font-size: 24px;
+  width: 100%;
+}
+
+input[type="submit"] {
+  width: 150px;
+  font-size: 24px;
+  height: 50px;
+  float: right;
+}
+
+code {
+  font-size: 36px;
+}

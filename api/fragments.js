@@ -16,7 +16,7 @@ function isVowel(char) {
   return vowels.indexOf(char) !== -1;
 }
 
-function fragmentize(word) {
+function travestize(word) {
   var pieces = word.split('');
   var fragments = [];
   var pivotIndex = 0;
@@ -77,25 +77,33 @@ function sentence(str) {
   return chars.join('');
 }
 
-function handlePostFrag (req, res, next) {
-  assert(req.body.text, '`text` body property is required');
+function handlePost (req, res, next) {
+  if (!req.body.text) {
+    console.warn({ error: '`text` body property is required' });
+    return res.send('');
+  }
   var original = req.body.text.toLowerCase();
   var words = original.split(' ');
   var fragments = _.chain(words)
-    .map(fragmentize)
+    .map(travestize)
     .flatten()
     .shuffle()
     .value();
 
   var transformed = sentence(glue(fragments));
 
+  console.log({
+    original: original,
+    transformed: transformed
+  });
+
   res.send(transformed);
 }
 
 module.exports = {
   register: function register(app) {
-    app.post('/fragmentize', handlePostFrag);
+    app.post('/travestize', handlePost);
   },
-  fragmentize: fragmentize
+  travestize: travestize
 };
 
