@@ -6,9 +6,6 @@ var $ = function (selector) {
   }
 };
 
-// Style import
-require('./styles.scss');
-
 var handleSubmit = function handleSubmit(ev) {
   ev.preventDefault();
 

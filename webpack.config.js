@@ -1,5 +1,14 @@
+'use strict';
+
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 module.exports = {
-  entry: './client/MAIN.js',
+  entry: {
+    app: [
+      './client/MAIN.js',
+      './client/styles.scss'
+    ]
+  },
   output: {
     path: __dirname + '/build',
     filename: 'travestize.js'
@@ -12,8 +21,14 @@ module.exports = {
   },
   module: {
     loaders: [
-      // Preprocessors / Loaders
-      { test: /\.scss$/, loader: 'style-loader!css-loader!sass-loader?sourceMap' },
+      // Extract css files
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!sass-loader?sourceMap')
+      }
     ]
-  }
+  },
+  plugins: [
+    new ExtractTextPlugin('[name].css')
+  ]
 };
