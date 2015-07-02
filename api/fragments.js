@@ -91,8 +91,10 @@ function handlePost (req, res, next) {
     .value();
 
   var transformed = sentence(glue(fragments));
+  var now = new Date();
 
   console.log({
+    time: now.toString(),
     original: original,
     transformed: transformed
   });
