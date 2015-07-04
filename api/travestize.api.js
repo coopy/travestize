@@ -1,5 +1,6 @@
 var assert = require('assert');
 var travestize = require('../src/travestize.js').travestize;
+var mongo = require('../db/mongo');
 
 function handleGenerateTravesty (req, res, next) {
   if (!req.body.text) {
@@ -8,12 +9,17 @@ function handleGenerateTravesty (req, res, next) {
   }
   var original = req.body.text.toLowerCase();
   var transformed = travestize(original);
-  var now = new Date();
-
-  console.log({
-    time: now.toString(),
+  var travesty = {
+    time: new Date().toString(),
     original: original,
     transformed: transformed
+  };
+
+  console.log(travesty);
+  mongo.insertTravesty(travesty, function (err) {
+    if (err) {
+      console.error(err);
+    }
   });
 
   res.send(transformed);
