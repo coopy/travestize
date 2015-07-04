@@ -3,26 +3,26 @@ var express = require('express');
 var path = require('path');
 
 var app = express();
-var api = require('./api/fragments');
+var api = require('./api/travestize.api.js');
+var config = require('./config');
 
-var config = {
-  port: 16925
-};
-
+// API
 app.use(bodyParser.json());
 api.register(app);
+
+// Static resources
 app.use('/js', express.static('build'));
 app.use('/css', express.static('build'));
-
-app.get('/', function (req, res) {
-  res.redirect('/travestize');
-});
-
 app.get('/travestize', function (req, res) {
   res.sendFile(path.resolve(__dirname, 'index.html'));
 });
 
-var server = app.listen(config.port, function () {
+// Redirect
+app.get('/', function (req, res) {
+  res.redirect('/travestize');
+});
+
+var server = app.listen(config.httpPort, function () {
 
   var host = server.address().address;
   var port = server.address().port;

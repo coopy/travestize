@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
+    "dev": "webpack watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Per Nilsson <per@sproutlab.com>",

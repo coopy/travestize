@@ -16,7 +16,7 @@ function isVowel(char) {
   return vowels.indexOf(char) !== -1;
 }
 
-function travestize(word) {
+function split(word) {
   var pieces = word.split('');
   var fragments = [];
   var pivotIndex = 0;
@@ -30,7 +30,7 @@ function travestize(word) {
   }
 
   for (var currIndex = 0; currIndex < pieces.length; currIndex++) {
-    // Triple the probability for vowels
+    // Double the probability for vowels
     var prob = isVowel(pieces[currIndex]) ? config.pivotProb*2 : config.pivotProb;
     // var prob = config.pivotProb;
 
@@ -77,35 +77,25 @@ function sentence(str) {
   return chars.join('');
 }
 
-function handlePost (req, res, next) {
-  if (!req.body.text) {
-    console.warn({ error: '`text` body property is required' });
-    return res.send('');
-  }
-  var original = req.body.text.toLowerCase();
+function travestize (original) {
+  // Create a shuffled list of word pieces.
   var words = original.split(' ');
   var fragments = _.chain(words)
-    .map(travestize)
+    .map(split)
     .flatten()
     .shuffle()
     .value();
 
-  var transformed = sentence(glue(fragments));
-  var now = new Date();
-
-  console.log({
-    time: now.toString(),
-    original: original,
-    transformed: transformed
-  });
-
-  res.send(transformed);
+  // Radomly glue the pieces together into a new sentence.
+  return sentence(glue(fragments));
 }
 
 module.exports = {
-  register: function register(app) {
-    app.post('/travestize', handlePost);
-  },
+  _glue: glue,
+  _isPunctuation: isPunctuation,
+  _isVowel: isVowel,
+  _sentence: sentence,
+  _split: split,
   travestize: travestize
 };
 
