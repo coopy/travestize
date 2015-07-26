@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
 
-var travestize = require('../src/travestize');
+var travestize = require('../lib/travestize');
 var split = travestize._split();
 
 describe('fragments', function () {

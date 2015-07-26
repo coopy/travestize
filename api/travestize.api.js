@@ -1,5 +1,5 @@
 var assert = require('assert');
-var travestize = require('../src/travestize.js').travestize;
+var travestize = require('../lib/travestize.js').travestize;
 var mongo = require('../db/mongo');
 
 function handleGenerateTravesty (req, res, next) {
