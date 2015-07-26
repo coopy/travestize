@@ -23,7 +23,7 @@ var prodConfig = {
   }
 };
 
-if (process.env === 'production') {
+if (process.env.NODE_ENV === 'production') {
   _.merge(config, prodConfig);
 }
 

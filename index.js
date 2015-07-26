@@ -25,8 +25,8 @@ app.get('/', function (req, res) {
 
 mongo.connect(function (err) {
   if (err) {
-    console.error('Failed to connect to mongo db');
-    process.exit(1);
+    console.error('Failed to connect to mongo db', err);
+    throw err;
   }
   console.log('Connected to mongo db.');
 

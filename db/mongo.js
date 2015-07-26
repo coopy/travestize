@@ -5,7 +5,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 var config = require('../config');
 
-var url = 'mongodb://localhost:' + config.mongo.port + '/' + config.mongo.db;
+var url = 'mongodb://' + config.mongo.user + ':' + config.mongo.pwd  + '@localhost:' + config.mongo.port + '/' + config.mongo.db;
 var _db = null;
 
 module.exports = exports = {};
