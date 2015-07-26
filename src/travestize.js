@@ -3,8 +3,8 @@ var assert = require('assert');
 
 var vowels = ['a','o','u','e','i','y'];
 var punctuation = ['.',',','!','?','"','\'','&','(',')',':',';'];
-var config = {
-  pivotProb: 0.35,
+var defaults = {
+  splitProb: 0.35,
   glueProb: 0.55
 };
 
@@ -16,42 +16,44 @@ function isVowel(char) {
   return vowels.indexOf(char) !== -1;
 }
 
-function split(word) {
-  var pieces = word.split('');
-  var fragments = [];
-  var pivotIndex = 0;
+function split(splitProb) {
+  // Return function to pass into _.chain
+  return function (word) {
+    var pieces = word.split('');
+    var fragments = [];
+    var pivotIndex = 0;
 
-  if (pieces.length === 0) {
-    return [];
-  }
-
-  if (pieces.length < 3) {
-    return [word];
-  }
-
-  for (var currIndex = 0; currIndex < pieces.length; currIndex++) {
-    // Double the probability for vowels
-    var prob = isVowel(pieces[currIndex]) ? config.pivotProb*2 : config.pivotProb;
-    // var prob = config.pivotProb;
-
-    if (currIndex - pivotIndex > 1 && Math.random() < prob) {
-      currIndex += 1;
-      fragments.push(word.substring(pivotIndex, currIndex));
-      pivotIndex = currIndex;
+    if (pieces.length === 0) {
+      return [];
     }
-  }
 
-  if (pivotIndex < pieces.length) {
-    fragments.push(word.substring(pivotIndex));
-  }
+    if (pieces.length < 3) {
+      return [word];
+    }
 
-  return fragments;
+    for (var currIndex = 0; currIndex < pieces.length; currIndex++) {
+      // Double the probability for vowels
+      var prob = isVowel(pieces[currIndex]) ? splitProb * 2 : splitProb;
+
+      if (currIndex - pivotIndex > 1 && Math.random() < prob) {
+        currIndex += 1;
+        fragments.push(word.substring(pivotIndex, currIndex));
+        pivotIndex = currIndex;
+      }
+    }
+
+    if (pivotIndex < pieces.length) {
+      fragments.push(word.substring(pivotIndex));
+    }
+
+    return fragments;
+  };
 }
 
-function glue(fragments) {
+function glue(fragments, glueProb) {
   var result = _.reduce(fragments, function (result, frag) {
     var lastChar = frag[frag.length - 1];
-    if (isPunctuation(lastChar) || Math.random() > config.glueProb) {
+    if (isPunctuation(lastChar) || Math.random() > glueProb) {
       frag += ' ';
     }
     return result + frag;
@@ -77,17 +79,20 @@ function sentence(str) {
   return chars.join('');
 }
 
-function travestize (original) {
+function travestize (original, options) {
+  options = options || {};
+  var glueProb = options.glueProb || defaults.glueProb;
+  var splitProb = options.splitProb || defaults.splitProb;
   // Create a shuffled list of word pieces.
   var words = original.split(' ');
   var fragments = _.chain(words)
-    .map(split)
+    .map(split(splitProb))
     .flatten()
     .shuffle()
     .value();
 
   // Radomly glue the pieces together into a new sentence.
-  return sentence(glue(fragments));
+  return sentence(glue(fragments, glueProb));
 }
 
 module.exports = {

@@ -10,9 +10,20 @@
   <div class="container">
     <div class="wrapper">
       <h1>Travestize</h1>
-      <p>Enter a sentence or two into the text field, and press the button!<P>
+      <p>Enter a sentence or two into the text field, and press the button!</p>
       <textarea id="original-text" rows="4"></textarea>
       <br>
+      <label>
+        <span>Probability to split words</span>
+        <br>
+        <input type="range" min="0" max="1" step="0.01" id="split-prob"></input>
+      </label>
+      <br>
+      <label>
+        <span>Probability to glue pieces</span>
+        <br>
+        <input type="range" min="0" max="1" step="0.01" id="glue-prob"></input>
+      </label>
       <input type="submit" id="submit-form" value="Travestize!"></input>
 
       <br>

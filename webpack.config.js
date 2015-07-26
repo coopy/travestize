@@ -30,5 +30,6 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin('[name].css')
-  ]
+  ],
+  devtool: 'sourcemap'
 };

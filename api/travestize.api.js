@@ -8,7 +8,11 @@ function handleGenerateTravesty (req, res, next) {
     return res.send('');
   }
   var original = req.body.text.toLowerCase();
-  var transformed = travestize(original);
+  var options = {
+    splitProb: req.body.splitProb || null,
+    glueProb:  req.body.glueProb  || null
+  };
+  var transformed = travestize(original, options);
   var travesty = {
     time: new Date().toString(),
     original: original,
